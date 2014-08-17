@@ -1,106 +1,105 @@
-getdata-CourseProject
+getdata-CourseProject - Explanation R script runAnalysis.R
 =====================
 
- R script for Course Project "Getting and Cleaning Data"
+# Precondition
+All files have to be in same folder - your 'working directory'.
+Since the names of the files are unique, that won't cause a problem. 
+
+## File List
+- R script: 'run_Analysis.R' 
+- List of all features: 'features.txt'
+- List of all activities with class labels: 'activity_labels.txt'
+- Subjects test set: 'subject_test.txt'
+- Test set: 'X_test.txt'
+- Test labels 'y_test.txt'
+- Subjects train set: 'subject_train.txt'
+- Training set: 'X_train.txt'
+- Training labels: 'y_train.txt'
+
+# STEP 1
+
+##Task: Merge the training and the test sets to create one data set.
+
+###Column Names
+- read the features.txt as  vector
+
+###Test Data
+- read the test set
+- add the column names from features.txt
+- read the test labels
+- add column name "Activities"
+- read the subjects test set
+- add column name "Subject"
+- combine the three files in tow steps 
+
+###Train Data
+- read the train set
+- add the column names from features.txt
+- read the train labels
+- add column name "Activities"
+- read the subjects train set
+- add column name "Subject"
+- combine the three files in tow steps via 'cbind()'
+
+### Complete Data
+- combine test and train data via 'rbind()' to one data set
+
+# STEP 2
+
+##Task: Extract only the measurements on the mean and standard deviation for each measurement. 
+
+###Identify Columns
+- create a vector with column numbers for all measurements with "mean" oder "std" in the variable name
+- 79 results: 33x "std" and 46x "mean"
+
+###Subset Data
+- extract the  measurements
+- including the columns "Subject" and "Activities"
+
+# STEP 3
+## Task: Use descriptive activity names to name the activities in the data set.
+
+###Column Names
+- read the activity list including class labels
+
+###Merge
+- merge the activity list with the data set
+- with the order (first activity list, then data set) and the argument 'all=TRUE' every appearance of the corresponding number is considered
+
+###CleanUp
+- delete the column with the activity numbers
+- replace the column name "V2" with the more descriptive "Activities" 
+
+# STEP 4
+
+##Task: Appropriately label the data set with descriptive variable names. 
+- general structure of the variables: DESCRIPTION- STD or MEAN - AXIS
+- the labels should not be to long for a better readability (abbreviations like "Acc" for Accelaration are being used) 
+- for this reason the labels also contains up and lower case (camel case)
+- see CODEBOOK.md for detailed informationen about the variable and their names
+
+### Adjustments to the variable names
+- "BodyBody" to "Body"
+- "tBody" to "time_Body"
+- "fBody" to "freq_Body"
+
+# STEP 5
+
+##Task: Create a second, independent tidy data set with the average of each variable for each activity and each subject. 
+
+###Reshape
+- reshape the data set with 'melt()' produces a tall, skinny dataset
+- produce the final dataset with the mean values via 'dcast()'
+
+###Output
+- the final data **"data_final.txt"** set has for every 30 subject each with 6 activities a row (180 rows) a mean value for each mean and std variable
+- ordered by "Activities" then by "Subject" 
+- the data set is space delimited, can be read with 'read.table'
 
 
-
-Headers
-
-# H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6
-
-
-Emphasis
-
-Emphasis, aka italics, with *asterisks* or _underscores_.
-
-Strong emphasis, aka bold, with **asterisks** or __underscores__.
-
-Combined emphasis with **asterisks and _underscores_**.
-
-Strikethrough uses two tildes. ~~Scratch this.~~
-
-
-1. First ordered list item
-2. Another item
-⋅⋅* Unordered sub-list. 
-1. Actual numbers don't matter, just that it's a number
-⋅⋅1. Ordered sub-list
-4. And another item.
- 
-Inline `code` has `back-ticks around` it.
-
-
-
-
-
-
-Tidy Dataset
-
-data set as a txt file created with write.table() using row.name=FALSE
-explaining how to read it into R (for instance using read.table)
-set the option of not writing the line numbers as that can look a bit ugly when reading it back in
+###Tidy Dataset
 1. Each variable forms a column
 2. Each observation forms a row
-3. Each table/file stores data about one kind of observation (e.g. people/hospitals).
-
-one table for each "kind" of variable
-If you have multiple tables, they should include a column in the table that allows them to be linked
-
-- Include a row at the top of each file with variable names.
-- Make variable names human readable AgeAtDiagnosis instead of AgeDx
-- In general data should be saved in one file per table.
-
-
-
-given the variables descriptive names, explain why the names are descriptive
-document the starting expectations of the script
-
-
-1. Merges the training and the test sets to create one data set.
-alle Dateien in einem Ordner (Working Directory)
-Dateinamen sind individuell, kein Probleme
-Einlesen TXT-dateien 
-	read.table is easiest as everything is separated by spaces
-combine Train  (activity, data, subject)
-combine Test (activity, data, subject)
-	cbind()
-combine Train + Test
-	rbind()
-Spaltenüberschriften „Features“
-	Umwandeln in Zeile
-	rbind
-(=> eine Tabelle)
-
-2. Extracts only the measurements on the mean and standard deviation for each measurement. 
-alle die mean oder std im Variablen-Namen haben
-Suche nach std (33x) ODER mean (46x)
-Vektor mit den entsprechenden Spaltennummern 
-Subsetting Tabelle entsprechend dem Vektor  PLUS Subject und Activity
-
-3. Uses descriptive activity names to name the activities in the data set
-merge mit Activity.txt
-Cleanup: Spalte mit Activitiy Zahlen löschen
-Spaltenüberschrift anpassen
-
-4. Appropriately labels the data set with descriptive variable names. 
-BodyBody zu Body
-t (wenn Body folgt) zu Beginn in „time“ (Time)
-f (wenn Body folgt) zu Beginn in „freq“ (Frequency)
-
-Aufbau der Variablen: NAME-STDoderMEAN-ACHSE (XYZ) (if appropriate)
-nicht zu lang, abbrevations like „Acc“ for Acceleration
-Erklärung der Abkürzung im Codebook 
-
-5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
-Reshape with „melt()“ for tall, skinny dataset
-final data 
-Tabelle mit 30 Subjects mit je 6 Aktivitäten = 180 Zeilen
-sortiert nach Activities für jedes Subject mean-Value aller Mean- und Std-Values
-
-tidy data set from step #5, that needs to be attached, is space delimited
+3. Data is be saved in one file per table
+4. A row at the top of the file with variable names is included.
+5. Variable names are human readable.
