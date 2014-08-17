@@ -37,6 +37,31 @@ Inline `code` has `back-ticks around` it.
 
 
 
+
+
+
+Tidy Dataset
+
+data set as a txt file created with write.table() using row.name=FALSE
+explaining how to read it into R (for instance using read.table)
+set the option of not writing the line numbers as that can look a bit ugly when reading it back in
+1. Each variable forms a column
+2. Each observation forms a row
+3. Each table/file stores data about one kind of observation (e.g. people/hospitals).
+
+one table for each "kind" of variable
+If you have multiple tables, they should include a column in the table that allows them to be linked
+
+- Include a row at the top of each file with variable names.
+- Make variable names human readable AgeAtDiagnosis instead of AgeDx
+- In general data should be saved in one file per table.
+
+
+
+given the variables descriptive names, explain why the names are descriptive
+document the starting expectations of the script
+
+
 1. Merges the training and the test sets to create one data set.
 alle Dateien in einem Ordner (Working Directory)
 Dateinamen sind individuell, kein Probleme
@@ -77,3 +102,5 @@ Reshape with „melt()“ for tall, skinny dataset
 final data 
 Tabelle mit 30 Subjects mit je 6 Aktivitäten = 180 Zeilen
 sortiert nach Activities für jedes Subject mean-Value aller Mean- und Std-Values
+
+tidy data set from step #5, that needs to be attached, is space delimited
